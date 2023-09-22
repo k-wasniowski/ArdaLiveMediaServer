@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Core/Frame.hpp>
+#include <Media/Core/Frame.hpp>
 
 namespace Media
 {
@@ -17,9 +17,9 @@ namespace Media
         class VideoFrame : public Frame
         {
         public:
-            static VideoFrameSharedPtr_t Create(std::vector<std::byte> data);
+            static VideoFrameSharedPtr_t Create(MediaBufferSharedPtr_t pMediaBuffer);
 
-            VideoFrame(std::vector<std::byte> data);
+            VideoFrame(MediaBufferSharedPtr_t pMediaBuffer);
             ~VideoFrame() override = default;
         };
     }

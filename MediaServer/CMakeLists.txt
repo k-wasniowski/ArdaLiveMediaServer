@@ -4,4 +4,5 @@
 # and its contents without proper authorization is not allowed.
 
 add_subdirectory(MediaManager)
+add_subdirectory(GenericRtpClient)
 add_subdirectory(RtspClient)

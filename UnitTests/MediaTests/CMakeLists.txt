@@ -3,9 +3,4 @@
 # Copying, utilizing or revealing any part or entirety of this file
 # and its contents without proper authorization is not allowed.
 
-enable_testing()
-
-find_package(GTest REQUIRED)
-include(GoogleTest)
-
-add_subdirectory(MediaTests)
+add_subdirectory(SdpTests)

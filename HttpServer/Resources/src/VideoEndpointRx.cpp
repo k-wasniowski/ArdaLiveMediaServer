@@ -5,7 +5,7 @@
 
 #include <Resources/VideoEndpointRx.hpp>
 
-#include <Core/Frame.hpp>
+#include <Media/Core/Frame.hpp>
 
 #include <iostream>
 

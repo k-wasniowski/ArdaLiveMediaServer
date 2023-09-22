@@ -3,19 +3,19 @@
 // Copying, utilizing or revealing any part or entirety of this file
 // and its contents without proper authorization is not allowed.
 
-#include <Core/Frame.hpp>
+#include <Media/Core/Frame.hpp>
 
 namespace Media
 {
     namespace Core
     {
-        FrameSharedPtr_t Frame::Create(std::vector<std::byte> data)
+        FrameSharedPtr_t Frame::Create(MediaBufferSharedPtr_t pMediaBuffer)
         {
-            return std::make_shared<Frame>(std::move(data));
+            return std::make_shared<Frame>(std::move(pMediaBuffer));
         }
 
-        Frame::Frame(std::vector<std::byte> data)
-            : m_data{std::move(data)}
+        Frame::Frame(MediaBufferSharedPtr_t pMediaBuffer)
+            : m_pMediaBuffer{std::move(pMediaBuffer)}
         {}
     }
 }

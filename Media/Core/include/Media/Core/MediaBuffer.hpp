@@ -5,26 +5,25 @@
 
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace Media
 {
     namespace Core
     {
-        class Frame;
-        using FrameSharedPtr_t = std::shared_ptr<Frame>;
+        class MediaBuffer;
+        using MediaBufferSharedPtr_t = std::shared_ptr<MediaBuffer>;
 
-        class Frame
+        class MediaBuffer
         {
         public:
-            static FrameSharedPtr_t Create(std::vector<std::byte> data);
+            static MediaBufferSharedPtr_t Create(std::vector<std::byte> data);
 
-            explicit Frame(std::vector<std::byte> data);
-            virtual ~Frame() = default;
+            explicit MediaBuffer(std::vector<std::byte> data);
+            virtual ~MediaBuffer() = default;
 
-
-        protected:
+        private:
             std::vector<std::byte> m_data;
         };
     }

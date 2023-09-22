@@ -7,8 +7,6 @@ cmake_minimum_required(VERSION 3.26)
 
 project(ArdaLiveMediaServer LANGUAGES CXX VERSION 0.0.1)
 
-enable_testing()
-
 set(CMAKE_CXX_STANDARD 23)
 
 find_package(Drogon CONFIG REQUIRED)
