@@ -19,7 +19,7 @@ jobs:
           pip install jinja2 Pygments
       - name: Configure
         run: |
-          cmake -B build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+          cmake -B build -G "Unix Makefiles" -DSKIP_BUILD=True -DCMAKE_BUILD_TYPE="Debug"
       - name: Building
         run: |
           cmake --build build --config Debug --target docs -j4
