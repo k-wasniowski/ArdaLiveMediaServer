@@ -9,6 +9,9 @@ project(ArdaLiveMediaServer LANGUAGES CXX VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 23)
 
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake)
+include(Docs)
+
 find_package(Drogon CONFIG REQUIRED)
 find_package(LibDataChannel CONFIG REQUIRED)
 find_package(opentelemetry-cpp CONFIG REQUIRED)
