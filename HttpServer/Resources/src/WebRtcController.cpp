@@ -1,8 +1,3 @@
-// Copyright 2023 The Arda Project Authors. All rights reserved.
-//
-// Copying, utilizing or revealing any part or entirety of this file
-// and its contents without proper authorization is not allowed.
-
 #include <Resources/PeerConnection.hpp>
 #include <Resources/WebRtcController.hpp>
 #include <Resources/WhepSignalingHandler.hpp>
@@ -21,8 +16,6 @@ namespace Http
 {
     WebRtcControllerSharedPtr_t WebRtcController::Create(MediaServer::MediaManagerSharedPtr_t pMediaManager)
     {
-        //rtc::InitLogger(rtc::LogLevel::Verbose);
-
         return std::make_shared<WebRtcController>(pMediaManager);
     }
 
