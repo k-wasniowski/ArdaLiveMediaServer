@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 namespace Media
 {
@@ -12,64 +13,28 @@ namespace Media
         class Connection
         {
         public:
-            static ConnectionSharedPtr_t Create(const std::string& netType, const std::string& addrType, const std::string& address)
-            {
-                return std::make_shared<Connection>(netType, addrType, address);
-            }
-            
+            static ConnectionSharedPtr_t Create(const std::string& netType, const std::string& addrType, const std::string& address);
+
             Connection() = default;
 
-            Connection(const std::string& netType, const std::string& addrType, const std::string& address)
-            {
-                this->netType = netType;
-                this->addrType = addrType;
-                this->address = address;
-            }
+            Connection(const std::string& netType, const std::string& addrType, const std::string& address);
 
-            ConnectionSharedPtr_t clone()
-            {
-                return std::make_shared<Connection>(netType, addrType, address);
-            }
+            ConnectionSharedPtr_t clone();
 
-            std::string toString()
-            {
-                return "c=" + netType + " " + addrType + " " + address + "\r\n";
-            }
+            std::string toString();
 
-            std::string getAddrType()
-            {
-                return addrType;
-            }
+            void setAddrType(const std::string& addrType);
+            void setAddress(const std::string& address);
+            void setNetType(const std::string& netType);
 
-            void setAddrType(const std::string& addrType)
-            {
-                this->addrType = addrType;
-            }
-
-            std::string getAddress()
-            {
-                return address;
-            }
-
-            void setAddress(const std::string& address)
-            {
-                this->address = address;
-            }
-
-            std::string getNetType()
-            {
-                return netType;
-            }
-
-            void setNetType(const std::string& netType)
-            {
-                this->netType = netType;
-            }
+            std::string getAddrType();
+            std::string getAddress();
+            std::string getNetType();
 
         private:
-            std::string netType;
-            std::string addrType;
-            std::string address;
+            std::string m_netType;
+            std::string m_addrType;
+            std::string m_address;
         };
     }
 
