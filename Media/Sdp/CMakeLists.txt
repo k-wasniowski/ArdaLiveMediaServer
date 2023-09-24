@@ -1,8 +1,3 @@
-# Copyright 2023 The Arda Project Authors. All rights reserved.
-#
-# Copying, utilizing or revealing any part or entirety of this file
-# and its contents without proper authorization is not allowed.
-
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/Details DETAILS_SOURCES)
 aux_source_directory(src/Details/abnf ABNF_SOURCES)
