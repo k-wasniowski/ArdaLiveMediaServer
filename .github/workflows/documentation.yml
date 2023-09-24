@@ -17,10 +17,10 @@ jobs:
         run: |
           sudo apt-get install doxygen
           pip install jinja2 Pygments
-      - name: configure
+      - name: Configure
         run: |
-          cmake -H . -B build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
-      - name: building
+          cmake -B build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+      - name: Building
         run: |
           cmake --build build --config Debug --target docs -j4
       - name: Deploy to GitHub Pages
