@@ -1,4 +1,4 @@
-#include <Media/Sdp/SessionDescription.h>
+#include <Media/Sdp/SessionDescription.hpp>
 
 #include <gtest/gtest.h>
 

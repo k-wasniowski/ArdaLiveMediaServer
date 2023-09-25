@@ -1,6 +1,6 @@
-#include <Resources/WhepSignalingHandler.hpp>
+#include "WhepSignalingHandler.hpp"
 
-#include <rtc/rtc.hpp>
+#include "rtc/rtc.hpp"
 
 #include <iostream>
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Resources/ISignalingHandler.hpp>
+#include "ISignalingHandler.hpp"
 
-#include <drogon/drogon.h>
-#include <rtc/rtc.hpp>
+#include "drogon/drogon.h"
+#include "rtc/rtc.hpp"
 
 #include <functional>
 #include <string>

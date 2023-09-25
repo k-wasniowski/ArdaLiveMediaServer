@@ -1,6 +1,6 @@
-#include <Resources/WhipSignalingHandler.hpp>
+#include "WhipSignalingHandler.hpp"
 
-#include <rtc/rtc.hpp>
+#include "rtc/rtc.hpp"
 
 #include <iostream>
 

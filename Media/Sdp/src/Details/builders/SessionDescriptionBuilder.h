@@ -2,7 +2,7 @@
 #define SDP_SESSION_DESCRIPTION_BUILDER_H_
 
 #include "Builder.h"
-#include "SessionDescription.h"
+#include "SessionDescription.hpp"
 
 using namespace Media::Sdp;
 using namespace abnf;

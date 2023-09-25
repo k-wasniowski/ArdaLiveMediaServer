@@ -1,5 +1,5 @@
-#include <Resources/PeerConnection.hpp>
-#include <Resources/VideoEndpointRx.hpp>
+#include "PeerConnection.hpp"
+#include "VideoEndpointRx.hpp"
 
 #include <iostream>
 

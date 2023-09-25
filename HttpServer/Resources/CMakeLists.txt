@@ -1,11 +1,7 @@
 add_library(Resources
         STATIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/PeerConnection.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GenericRtpController.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WebRtcController.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/WhipSignalingHandler.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/WhepSignalingHandler.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEndpointRx.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/VideoEndpointTx.cpp
 )
 
 target_link_libraries(Resources

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Resources/ISignalingHandler.hpp>
+#include "ISignalingHandler.hpp"
 
 namespace Http
 {

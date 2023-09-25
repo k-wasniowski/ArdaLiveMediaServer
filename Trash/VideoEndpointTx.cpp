@@ -1,4 +1,4 @@
-#include <Resources/VideoEndpointTx.hpp>
+#include "VideoEndpointTx.hpp"
 
 #include <iostream>
 

@@ -18,6 +18,7 @@ target_include_directories(GenericRtpClient
 target_link_libraries(GenericRtpClient
         PRIVATE
     Media::Core
+    Media::Sdp
 )
 
 add_library(MediaServer::GenericRtpClient ALIAS GenericRtpClient)

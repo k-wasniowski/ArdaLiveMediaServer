@@ -12,14 +12,20 @@ namespace MediaServer
 {
     namespace Rtp
     {
-        RtpClientSessionSharedPtr_t RtpClientSession::Create(boost::asio::io_context& ioContext, boost::asio::ip::udp::endpoint endpoint)
+        RtpClientSessionSharedPtr_t RtpClientSession::Create(boost::asio::io_context& ioContext,
+                                                             boost::asio::ip::udp::endpoint endpoint,
+                                                             Media::Sdp::SessionDescriptionSharedPtr_t pSessionDescription)
         {
-            return std::make_shared<RtpClientSession>(ioContext, endpoint);
+            return std::make_shared<RtpClientSession>(ioContext, endpoint, pSessionDescription);
         }
 
-        RtpClientSession::RtpClientSession(boost::asio::io_context& ioContext, boost::asio::ip::udp::endpoint endpoint)
+        RtpClientSession::RtpClientSession(boost::asio::io_context& ioContext,
+                                           boost::asio::ip::udp::endpoint endpoint,
+                                           Media::Sdp::SessionDescriptionSharedPtr_t pSessionDescription)
             : m_ioContext{ioContext}
-            , m_socket{ioContext, endpoint}
+            , m_socket{m_ioContext, endpoint}
+            , m_readStreamBuffer{}
+            , m_pSessionDescription{pSessionDescription}
         {
             std::cout << "RtpClientSession::RtpClientSession()" << std::endl;
         }
@@ -47,8 +53,6 @@ namespace MediaServer
 
         void RtpClientSession::OnMessage_(const boost::system::error_code& errorCode, size_t bytesTransferred)
         {
-            std::cout << "RtpClientSession::OnMessage_()" << std::endl;
-
             if (errorCode)
             {
                 std::cout << "Error: " << errorCode.message() << std::endl;
@@ -60,11 +64,7 @@ namespace MediaServer
             data.resize(bytesTransferred);
             std::copy(m_readStreamBuffer.begin(), m_readStreamBuffer.begin() + bytesTransferred, data.begin());
 
-            auto pRtpHeader = reinterpret_cast<Media::Core::Rtp::RtpHeader*>(m_readStreamBuffer.data());
-            std::cout << "Payload: " << pRtpHeader->payloadType << std::endl;
-
             auto pMediaBuffer = Media::Core::MediaBuffer::Create(std::move(data));
-
             auto pFrame = Media::Core::VideoFrame::Create(pMediaBuffer);
 
             StartReading_();

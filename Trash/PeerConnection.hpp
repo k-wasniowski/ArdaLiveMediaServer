@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Resources/IPeerConnection.hpp>
-#include <Resources/ISignalingHandler.hpp>
+#include "IPeerConnection.hpp"
+#include "ISignalingHandler.hpp"
 
-#include <rtc/rtc.hpp>
+#include "rtc/rtc.hpp"
 
 #include <memory>
 

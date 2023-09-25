@@ -1,6 +1,6 @@
-#include <Resources/VideoEndpointRx.hpp>
+#include "VideoEndpointRx.hpp"
 
-#include <Media/Core/Frame.hpp>
+#include "Media/Core/Frame.hpp"
 
 #include <iostream>
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Media/Sdp/SessionDescription.hpp>
+
 #include <boost/asio.hpp>
 
 #include <memory>
@@ -15,9 +17,13 @@ namespace MediaServer
         class RtpClientSession : public std::enable_shared_from_this<RtpClientSession>
         {
         public:
-            static RtpClientSessionSharedPtr_t Create(boost::asio::io_context& ioContext, boost::asio::ip::udp::endpoint endpoint);
+            static RtpClientSessionSharedPtr_t Create(boost::asio::io_context& ioContext,
+                                                      boost::asio::ip::udp::endpoint endpoint,
+                                                      Media::Sdp::SessionDescriptionSharedPtr_t pSessionDescription);
 
-            explicit RtpClientSession(boost::asio::io_context& ioContext, boost::asio::ip::udp::endpoint endpoint);
+            explicit RtpClientSession(boost::asio::io_context& ioContext,
+                                      boost::asio::ip::udp::endpoint endpoint,
+                                      Media::Sdp::SessionDescriptionSharedPtr_t pSessionDescription);
 
             virtual ~RtpClientSession();
 
@@ -31,7 +37,8 @@ namespace MediaServer
         private:
             boost::asio::io_context& m_ioContext;
             boost::asio::ip::udp::socket m_socket;
-            std::array<std::byte, 8192> m_readStreamBuffer{};
+            std::array<std::byte, 8192> m_readStreamBuffer;
+            Media::Sdp::SessionDescriptionSharedPtr_t m_pSessionDescription;
         };
     }
 }

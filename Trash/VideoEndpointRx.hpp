@@ -1,8 +1,8 @@
 #pragma once
 
-#include <MediaServer/MediaManager/IMediaTrack.hpp>
+#include "MediaServer/MediaManager/IMediaTrack.hpp"
 
-#include <rtc/rtc.hpp>
+#include "rtc/rtc.hpp"
 
 #include <memory>
 
