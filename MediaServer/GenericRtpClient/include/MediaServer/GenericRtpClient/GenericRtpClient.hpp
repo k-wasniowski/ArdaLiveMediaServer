@@ -1,6 +1,9 @@
 #pragma once
 
+#include <MediaServer/GenericRtpClient/IGenericRtpClient.hpp>
+
 #include <boost/asio.hpp>
+#include <boost/thread/thread.hpp>
 
 #include <memory>
 #include <string>
@@ -12,19 +15,20 @@ namespace MediaServer
         class GenericRtpClient;
         using GenericRtpClientSharedPtr_t = std::shared_ptr<GenericRtpClient>;
 
-        class GenericRtpClient
+        class GenericRtpClient : public IGenericRtpClient
         {
         public:
-            static GenericRtpClientSharedPtr_t Create(boost::asio::io_context& ioContext);
+            static GenericRtpClientSharedPtr_t Create();
 
-            explicit GenericRtpClient(boost::asio::io_context& ioContext);
+            explicit GenericRtpClient();
 
             virtual ~GenericRtpClient();
 
             bool InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription);
 
         private:
-            boost::asio::io_context& m_ioContext;
+            boost::asio::io_context m_ioContext;
+            boost::thread_group m_threadPool;
         };
     }
 }

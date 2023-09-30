@@ -1,7 +1,6 @@
 #include <HttpServer/Server.hpp>
 #include <MediaServer/MediaManager/MediaManager.hpp>
-#include <MediaServer/RtspClient/RtspClient.hpp>
-#include <MediaServer/GenericRtpClient/GenericRtpClient.hpp>
+#include <MediaServer/Server.hpp>
 
 #include <iostream>
 
@@ -9,10 +8,7 @@ int main()
 {
     std::cout << "Initializing!" << std::endl;
 
-    boost::asio::io_context ioContext{};
-
-    auto pRtspClient = MediaServer::Rtsp::RtspClient::Create(ioContext);
-    auto pGenericRtpClient = MediaServer::Rtp::GenericRtpClient::Create(ioContext);
+    auto pMediaServer = MediaServer::Server::Create();
 
     auto pMediaManager = MediaServer::MediaManager::Create();
 

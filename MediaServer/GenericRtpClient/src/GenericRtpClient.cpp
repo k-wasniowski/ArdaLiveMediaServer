@@ -1,24 +1,38 @@
-#include <MediaServer/GenericRtpClient/GenericRtpClient.hpp>
 #include <MediaServer/GenericRtpClient/Details/RtpClientSession.hpp>
+#include <MediaServer/GenericRtpClient/GenericRtpClient.hpp>
 
 #include <Media/Sdp/SessionDescription.hpp>
 
 #include <iostream>
 
+namespace
+{
+    constexpr auto kDefaultNumberOfThreads = 4;
+}
+
 namespace MediaServer
 {
     namespace Rtp
     {
-        GenericRtpClientSharedPtr_t GenericRtpClient::Create(boost::asio::io_context& ioContext)
+        GenericRtpClientSharedPtr_t GenericRtpClient::Create()
         {
-            return std::make_shared<GenericRtpClient>(ioContext);
+            return std::make_shared<GenericRtpClient>();
         }
 
-        GenericRtpClient::GenericRtpClient(boost::asio::io_context& ioContext)
-            : m_ioContext{ioContext}
-        {}
+        GenericRtpClient::GenericRtpClient()
+            : m_ioContext{}
+        {
+            for (auto i = 0; i < kDefaultNumberOfThreads; ++i)
+            {
+                m_threadPool.create_thread(boost::bind(&boost::asio::io_context::run, &m_ioContext));
+            }
+        }
 
-        GenericRtpClient::~GenericRtpClient() {}
+        GenericRtpClient::~GenericRtpClient()
+        {
+            m_ioContext.stop();
+            m_threadPool.join_all();
+        }
 
         bool GenericRtpClient::InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription)
         {

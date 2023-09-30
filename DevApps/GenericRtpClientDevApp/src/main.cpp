@@ -4,9 +4,7 @@
 
 int main()
 {
-    boost::asio::io_context ioContext{};
-
-    auto pRtpClientSession = MediaServer::Rtp::GenericRtpClient::Create(ioContext);
+    auto pRtpClientSession = MediaServer::Rtp::GenericRtpClient::Create();
 
     std::string address{"127.0.0.1"};
     uint16_t port = 5004;
@@ -21,8 +19,6 @@ int main()
                                      "a=rtpmap:96 VP8/90000\r\n";
 
     pRtpClientSession->InitiateNewSession(address, port, sessionDescription);
-
-    ioContext.run();
 
     return 0;
 }

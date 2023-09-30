@@ -1,4 +1,7 @@
+#include <MediaServer/GenericRtpClientProxy.hpp>
 #include <MediaServer/Server.hpp>
+
+#include <Gondor/Execution/ExecutionContext.hpp>
 
 #include <boost/asio.hpp>
 
@@ -15,6 +18,8 @@ namespace MediaServer
         }
 
         Impl()
+            : m_pExecutionContext{Gondor::Execution::ExecutionContext::Create()}
+            , m_pGenericRtpClient{MediaServer::Rtp::GenericRtpClient::Create()}
         {
             std::cout << "Creating Server!" << std::endl;
         }
@@ -22,26 +27,34 @@ namespace MediaServer
         ~Impl()
         {
             std::cout << "Destroying Server!" << std::endl;
-
-            if (m_ioContextThread.joinable())
-            {
-                m_ioContextThread.join();
-            }
         }
 
         void Run()
         {
             std::cout << "Running Server!" << std::endl;
-            m_ioContextThread = std::thread([this]() {
-                auto work = boost::asio::make_work_guard(m_ioContext);
-                m_ioContext.run();
-            });
+            if (m_pExecutionContext)
+            {
+                m_pExecutionContext->Run();
+            }
+        }
+
+        void Terminate()
+        {
+            std::cout << "Terminating Server!" << std::endl;
+            if (m_pExecutionContext)
+            {
+                m_pExecutionContext->Terminate();
+            }
+        }
+
+        MediaServer::Rtp::IGenericRtpClientSharedPtr_t MakeGenericRtpClient()
+        {
+            return GenericRtpClientProxy::Create(m_pExecutionContext, m_pGenericRtpClient);
         }
 
     private:
-        boost::asio::io_context m_ioContext;
-        std::thread m_ioContextThread;
-
+        Gondor::Execution::ExecutionContextSharedPtr m_pExecutionContext;
+        MediaServer::Rtp::GenericRtpClientSharedPtr_t m_pGenericRtpClient;
     };
 
     ServerSharedPtr_t Server::Create()
@@ -63,5 +76,28 @@ namespace MediaServer
     void Server::Run()
     {
         std::cout << "Running Server!" << std::endl;
+        if (m_pImpl)
+        {
+            m_pImpl->Run();
+        }
+    }
+
+    void Server::Terminate()
+    {
+        std::cout << "Terminating Server!" << std::endl;
+        if (m_pImpl)
+        {
+            m_pImpl->Terminate();
+        }
+    }
+
+    MediaServer::Rtp::IGenericRtpClientSharedPtr_t Server::MakeGenericRtpClient()
+    {
+        if (!m_pImpl)
+        {
+            return nullptr;
+        }
+
+        return m_pImpl->MakeGenericRtpClient();
     }
 }

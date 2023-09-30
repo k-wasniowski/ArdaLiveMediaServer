@@ -1,5 +1,7 @@
 #pragma once
 
+#include <MediaServer/GenericRtpClient/IGenericRtpClient.hpp>
+
 #include <memory>
 
 namespace MediaServer
@@ -43,6 +45,14 @@ namespace MediaServer
          * @details This method will start the server.
          */
         void Run();
+
+        /**
+         * @brief Terminate
+         * @details This method will stop the server.
+         */
+        void Terminate();
+
+        MediaServer::Rtp::IGenericRtpClientSharedPtr_t MakeGenericRtpClient();
 
     private:
         class Impl;
