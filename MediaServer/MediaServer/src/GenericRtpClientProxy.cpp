@@ -25,17 +25,25 @@ namespace MediaServer
 
     bool GenericRtpClientProxy::InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription)
     {
-        std::cout << "GenericRtpClientProxy::InitiateNewSession()" << std::endl;
+        return true;
+//        std::cout << "GenericRtpClientProxy::InitiateNewSession()" << std::endl;
+//
+//        auto pExecutionContext = m_pExecutionContext.lock();
+//        if (!pExecutionContext)
+//        {
+//            std::cout << "GenericRtpClientProxy::InitiateNewSession() - pExecutionContext is null!" << std::endl;
+//            return false;
+//        }
+//
+//        auto task = std::bind(&MediaServer::Rtp::GenericRtpClient::InitiateNewSession, m_pGenericRtpClient, ip, port, sessionDescription);
+//
+//        return pExecutionContext->PostTask(task);
+    }
 
-        auto pExecutionContext = m_pExecutionContext.lock();
-        if (!pExecutionContext)
-        {
-            std::cout << "GenericRtpClientProxy::InitiateNewSession() - pExecutionContext is null!" << std::endl;
-            return false;
-        }
+    MediaServer::Rtp::GenericRtpStreamAwaiter GenericRtpClientProxy::Initiate(std::string ip, uint16_t port, std::string sessionDescription)
+    {
+        std::cout << "GenericRtpClient::Initiate()" << std::endl;
 
-        auto task = std::bind(&MediaServer::Rtp::GenericRtpClient::InitiateNewSession, m_pGenericRtpClient, ip, port, sessionDescription);
-
-        return pExecutionContext->PostTask(task);
+        return MediaServer::Rtp::GenericRtpStreamAwaiter(m_pExecutionContext, m_pGenericRtpClient, ip, port, sessionDescription);
     }
 }

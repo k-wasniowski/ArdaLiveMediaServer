@@ -35,15 +35,18 @@ namespace MediaServer
             std::cout << "RtpClientSession::~RtpClientSession()" << std::endl;
         }
 
-        void RtpClientSession::Initiate()
+        void RtpClientSession::Initiate(std::function<void()> onInitiatedCallback)
         {
             std::cout << "RtpClientSession::Initiate()" << std::endl;
+            onInitiatedCallback();
 
             StartReading_();
         }
 
         void RtpClientSession::StartReading_()
         {
+            std::cout << "RtpClientSession::StartReading_()" << std::endl;
+
             m_socket.async_receive(boost::asio::buffer(m_readStreamBuffer),
                                    boost::bind(&RtpClientSession::OnMessage_,
                                                shared_from_this(),
@@ -66,6 +69,8 @@ namespace MediaServer
 
             auto pMediaBuffer = Media::Core::MediaBuffer::Create(std::move(data));
             auto pFrame = Media::Core::VideoFrame::Create(pMediaBuffer);
+
+            std::cout << "Frame received!" << std::endl;
 
             StartReading_();
         }

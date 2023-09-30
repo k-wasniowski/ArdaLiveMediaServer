@@ -31,6 +31,7 @@ find_package(Drogon CONFIG REQUIRED)
 find_package(LibDataChannel CONFIG REQUIRED)
 find_package(opentelemetry-cpp CONFIG REQUIRED)
 find_package(Boost COMPONENTS thread REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 add_subdirectory(Gondor)
 add_subdirectory(Media)

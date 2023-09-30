@@ -2,6 +2,8 @@
 
 #include <boost/asio.hpp>
 
+#include <thread>
+
 int main()
 {
     auto pRtpClientSession = MediaServer::Rtp::GenericRtpClient::Create();
@@ -19,6 +21,8 @@ int main()
                                      "a=rtpmap:96 VP8/90000\r\n";
 
     pRtpClientSession->InitiateNewSession(address, port, sessionDescription);
+
+    std::this_thread::sleep_for(std::chrono::seconds(10));
 
     return 0;
 }

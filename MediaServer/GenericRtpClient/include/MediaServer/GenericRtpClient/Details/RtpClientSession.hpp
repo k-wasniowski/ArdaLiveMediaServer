@@ -27,7 +27,7 @@ namespace MediaServer
 
             virtual ~RtpClientSession();
 
-            void Initiate();
+            void Initiate(std::function<void()> onInitiatedCallback);
 
         protected:
             void StartReading_();

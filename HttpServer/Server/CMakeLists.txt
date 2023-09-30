@@ -10,6 +10,7 @@ target_include_directories(Server
 
 target_link_libraries(Server
         PUBLIC
+    MediaServer::MediaServer
     MediaServer::MediaManager
     MediaServer::GenericRtpClient
     HttpServer::HealthCheck

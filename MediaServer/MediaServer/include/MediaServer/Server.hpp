@@ -52,7 +52,7 @@ namespace MediaServer
          */
         void Terminate();
 
-        MediaServer::Rtp::IGenericRtpClientSharedPtr_t MakeGenericRtpClient();
+        MediaServer::Rtp::IGenericRtpClientProxySharedPtr_t MakeGenericRtpClient();
 
     private:
         class Impl;

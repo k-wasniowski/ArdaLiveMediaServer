@@ -24,10 +24,11 @@ namespace MediaServer
 
             virtual ~GenericRtpClient();
 
-            bool InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription);
+            bool InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription, std::function<void()> callback) override;
 
         private:
             boost::asio::io_context m_ioContext;
+            boost::asio::executor_work_guard<boost::asio::io_context::executor_type> m_workGuard;
             boost::thread_group m_threadPool;
         };
     }
