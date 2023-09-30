@@ -1,3 +1,4 @@
 add_subdirectory(MediaManager)
 add_subdirectory(GenericRtpClient)
 add_subdirectory(RtspClient)
+add_subdirectory(MediaServer)

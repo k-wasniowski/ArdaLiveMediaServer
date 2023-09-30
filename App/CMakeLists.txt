@@ -11,5 +11,7 @@ target_link_libraries(ArdaLiveMediaServer
         PUBLIC
     MediaServer::MediaManager
     MediaServer::RtspClient
-    Http::Server
+    MediaServer::GenericRtpClient
+    HttpServer::Server
+    MediaServer::MediaServer
 )

@@ -1,6 +1,7 @@
 #include <HttpServer/Server.hpp>
 #include <MediaServer/MediaManager/MediaManager.hpp>
 #include <MediaServer/RtspClient/RtspClient.hpp>
+#include <MediaServer/GenericRtpClient/GenericRtpClient.hpp>
 
 #include <iostream>
 
@@ -11,6 +12,7 @@ int main()
     boost::asio::io_context ioContext{};
 
     auto pRtspClient = MediaServer::Rtsp::RtspClient::Create(ioContext);
+    auto pGenericRtpClient = MediaServer::Rtp::GenericRtpClient::Create(ioContext);
 
     auto pMediaManager = MediaServer::MediaManager::Create();
 

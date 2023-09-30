@@ -21,4 +21,9 @@ target_link_libraries(GenericRtpClient
     Media::Sdp
 )
 
+target_link_libraries(GenericRtpClient
+        PRIVATE
+    MediaServer::MediaManager
+)
+
 add_library(MediaServer::GenericRtpClient ALIAS GenericRtpClient)

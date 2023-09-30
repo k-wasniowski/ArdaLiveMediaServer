@@ -1,6 +1,6 @@
 #include <HttpServer/Server.hpp>
 
-#include <HealthCheck/HealthCheckController.hpp>
+#include <HttpServer/HealthCheck/HealthCheckController.hpp>
 #include <HttpServer/Resources/WebRtcController.hpp>
 #include <HttpServer/Resources/GenericRtpController.hpp>
 
@@ -46,14 +46,15 @@ namespace HttpServer
         void Run()
         {
             std::cout << "Running Server Impl" << std::endl;
-            auto pHealthCheckController = Http::HealthCheckController::Create();
+            auto pHealthCheckController = HttpServer::HealthCheckController::Create();
             auto pWebRtcController = HttpServer::Resources::WebRtcController::Create(m_pMediaManager);
-            auto pGenericRtpController = HttpServer::Resources::GenericRtpController::Create();
+            auto pGenericRtpController = HttpServer::Resources::GenericRtpController::Create(m_pMediaManager);
 
             drogon::app()
                 .addListener("127.0.0.1", 80)
                 .registerController(pHealthCheckController)
                 .registerController(pWebRtcController)
+                .registerController(pGenericRtpController)
                 .run();
         }
 

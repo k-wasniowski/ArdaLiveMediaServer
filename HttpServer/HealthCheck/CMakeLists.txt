@@ -13,4 +13,4 @@ target_include_directories(HealthCheck
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-add_library(Http::HealthCheck ALIAS HealthCheck)
+add_library(HttpServer::HealthCheck ALIAS HealthCheck)

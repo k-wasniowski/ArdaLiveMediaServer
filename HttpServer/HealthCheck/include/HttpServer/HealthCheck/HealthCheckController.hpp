@@ -4,7 +4,7 @@
 
 #include <memory>
 
-namespace Http
+namespace HttpServer
 {
     class HealthCheckController;
     using HealthCheckControllerSharedPtr_t = std::shared_ptr<HealthCheckController>;

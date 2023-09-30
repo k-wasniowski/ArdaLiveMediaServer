@@ -11,8 +11,9 @@ target_include_directories(Server
 target_link_libraries(Server
         PUBLIC
     MediaServer::MediaManager
-    Http::HealthCheck
+    MediaServer::GenericRtpClient
+    HttpServer::HealthCheck
     Http::Resources
 )
 
-add_library(Http::Server ALIAS Server)
+add_library(HttpServer::Server ALIAS Server)

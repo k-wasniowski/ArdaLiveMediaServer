@@ -26,16 +26,16 @@ namespace MediaServer
 
     MediaResourceSharedPtr_t MediaManager::GetMediaResource(std::string resourceName)
     {
-//        auto it = std::find_if(std::begin(m_mediaResources), std::end(m_mediaResources), [resourceName = std::move(resourceName)](const auto& resource) -> bool {
-//            return resource->ResourceName() == resourceName;
-//        });
-//
-//        if(it == std::end(m_mediaResources))
-//        {
-//            return nullptr;
-//        }
+        auto it = std::find_if(std::begin(m_mediaResources), std::end(m_mediaResources), [resourceName = std::move(resourceName)](const auto& resource) -> bool {
+            return resource->ResourceName() == resourceName;
+        });
 
-        return m_mediaResources.front();
+        if(it == std::end(m_mediaResources))
+        {
+            return nullptr;
+        }
+
+        return *it;
     }
 
     void MediaManager::RemoveMediaResource(MediaResourceSharedPtr_t pMediaResource)

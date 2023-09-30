@@ -1,8 +1,8 @@
-#include <HealthCheck/HealthCheckController.hpp>
+#include <HttpServer/HealthCheck/HealthCheckController.hpp>
 
 #include <iostream>
 
-namespace Http
+namespace HttpServer
 {
     HealthCheckControllerSharedPtr_t HealthCheckController::Create()
     {
@@ -23,6 +23,16 @@ namespace Http
                                                std::function<void(const drogon::HttpResponsePtr&)>&& callback)
     {
         std::cout << "HealthCheckController::GetHealthCheck" << std::endl;
+        if (!pHttpRequest)
+        {
+            std::cout << "HealthCheckController::GetHealthCheck - pHttpRequest is nullptr" << std::endl;
+
+            auto pHttpResponse = drogon::HttpResponse::newHttpResponse();
+            pHttpResponse->setStatusCode(drogon::HttpStatusCode::k500InternalServerError);
+
+            callback(pHttpResponse);
+            return;
+        }
 
         auto pHttpResponse = drogon::HttpResponse::newHttpResponse();
         pHttpResponse->setStatusCode(drogon::HttpStatusCode::k200OK);

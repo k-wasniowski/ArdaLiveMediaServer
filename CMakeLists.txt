@@ -30,6 +30,7 @@ find_package(LibDataChannel CONFIG REQUIRED)
 find_package(opentelemetry-cpp CONFIG REQUIRED)
 find_package(Boost REQUIRED)
 
+add_subdirectory(Gondor)
 add_subdirectory(Media)
 add_subdirectory(MediaServer)
 add_subdirectory(HttpServer)
