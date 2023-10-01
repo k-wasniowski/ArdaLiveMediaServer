@@ -9,7 +9,9 @@ target_link_libraries(Resources
     Drogon::Drogon
     LibDataChannel::LibDataChannel
     MediaServer::MediaManager
+    MediaServer::MediaServer
     Media::Core
+    nlohmann_json::nlohmann_json
 )
 
 target_include_directories(Resources

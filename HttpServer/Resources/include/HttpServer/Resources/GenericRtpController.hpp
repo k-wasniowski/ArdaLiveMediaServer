@@ -1,6 +1,6 @@
 #pragma once
 
-#include <MediaServer/MediaManager/MediaManager.hpp>
+#include <MediaServer/Server.hpp>
 
 #include <drogon/HttpController.h>
 
@@ -16,24 +16,22 @@ namespace HttpServer
         class GenericRtpController : public drogon::HttpController<GenericRtpController, false>
         {
         public:
-            static GenericRtpControllerSharedPtr_t Create(MediaServer::MediaManagerSharedPtr_t pMediaManager);
+            static GenericRtpControllerSharedPtr_t Create(MediaServer::ServerSharedPtr_t pMediaServer);
 
-            GenericRtpController(MediaServer::MediaManagerSharedPtr_t pMediaManager);
+            GenericRtpController(MediaServer::ServerSharedPtr_t pMediaServer);
             ~GenericRtpController() override;
 
             METHOD_LIST_BEGIN
             ADD_METHOD_TO(GenericRtpController::PostResource, "/api/v1/resources/generic-rtp/{resource}", drogon::Post);
             METHOD_LIST_END
 
-            void PostResource(const drogon::HttpRequestPtr& req,
-                              std::function<void(const drogon::HttpResponsePtr&)>&& callback,
-                              std::string&& resource);
+            drogon::Task<drogon::HttpResponsePtr> PostResource(const drogon::HttpRequestPtr req);
 
         private:
             void SendHttpSuccessResponse_(std::function<void(const drogon::HttpResponsePtr&)>&& callback);
 
         private:
-            MediaServer::MediaManagerSharedPtr_t m_pMediaManager;
+            MediaServer::ServerSharedPtr_t m_pMediaServer;
         };
     }
 }

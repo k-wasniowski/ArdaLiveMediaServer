@@ -13,7 +13,7 @@ namespace MediaServer
     class GenericRtpClientProxy;
     using GenericRtpClientProxySharedPtr_t = std::shared_ptr<GenericRtpClientProxy>;
 
-    class GenericRtpClientProxy : public MediaServer::Rtp::IGenericRtpClient
+    class GenericRtpClientProxy : public MediaServer::Rtp::IGenericRtpClientProxy
     {
     public:
         static GenericRtpClientProxySharedPtr_t Create(Gondor::Execution::ExecutionContextWeakPtr pExecutionContext,
@@ -23,7 +23,7 @@ namespace MediaServer
                               MediaServer::Rtp::GenericRtpClientSharedPtr_t pGenericRtpClient);
         ~GenericRtpClientProxy();
 
-        bool InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription);
+        MediaServer::Rtp::GenericRtpStreamAwaiter Initiate(std::string ip, uint16_t port, std::string sessionDescription) override;
 
     private:
         Gondor::Execution::ExecutionContextWeakPtr m_pExecutionContext;

@@ -22,4 +22,6 @@ namespace MediaServer
 
         virtual void Attach(MediaObserverSharedPtr_t pMediaObserver) = 0;
     };
+
+    using IMediaTrackSharedPtr_t = std::shared_ptr<IMediaTrack>;
 }

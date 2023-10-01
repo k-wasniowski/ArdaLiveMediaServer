@@ -1,6 +1,6 @@
 #pragma once
 
-#include <MediaServer/MediaManager/MediaManager.hpp>
+#include <MediaServer/Server.hpp>
 
 #include <memory>
 
@@ -24,14 +24,14 @@ namespace HttpServer
          *
          * @return ServerUniquePtr_t
          */
-        static ServerUniquePtr_t Create(MediaServer::MediaManagerSharedPtr_t pMediaManager);
+        static ServerUniquePtr_t Create(MediaServer::ServerSharedPtr_t pMediaServer);
 
         /**
          * @brief Server
          * @details This constructor will create the server instance.
          *
          */
-        Server(MediaServer::MediaManagerSharedPtr_t pMediaManager);
+        Server(MediaServer::ServerSharedPtr_t pMediaServer);
 
         /**
          * @brief ~Server

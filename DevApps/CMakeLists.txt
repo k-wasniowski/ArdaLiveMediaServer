@@ -1,2 +1,0 @@
-add_subdirectory(GenericRtpClientDevApp)
-add_subdirectory(RtspClientDevApp)

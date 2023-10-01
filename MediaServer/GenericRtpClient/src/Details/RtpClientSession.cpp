@@ -35,9 +35,25 @@ namespace MediaServer
             std::cout << "RtpClientSession::~RtpClientSession()" << std::endl;
         }
 
-        void RtpClientSession::Initiate()
+        void RtpClientSession::Initiate(std::function<void(IMediaTrackSharedPtr_t pMediaTrack)> onInitiatedCallback)
         {
             std::cout << "RtpClientSession::Initiate()" << std::endl;
+
+            m_socket.async_receive(boost::asio::buffer(m_readStreamBuffer),
+                                   boost::bind(&RtpClientSession::OnFirstMessage_,
+                                               shared_from_this(),
+                                               boost::asio::placeholders::error,
+                                               boost::asio::placeholders::bytes_transferred,
+                                               onInitiatedCallback));
+        }
+
+        void RtpClientSession::OnFirstMessage_(const boost::system::error_code& errorCode,
+                                               size_t bytesTransferred,
+                                               std::function<void(IMediaTrackSharedPtr_t pMediaTrack)> onInitiatedCallback)
+        {
+            std::cout << "RtpClientSession::OnFirstMessage_()" << std::endl;
+
+            onInitiatedCallback(shared_from_this());
 
             StartReading_();
         }
@@ -67,7 +83,14 @@ namespace MediaServer
             auto pMediaBuffer = Media::Core::MediaBuffer::Create(std::move(data));
             auto pFrame = Media::Core::VideoFrame::Create(pMediaBuffer);
 
+            // std::cout << "Frame received!" << std::endl;
+
             StartReading_();
+        }
+
+        void RtpClientSession::Attach(MediaObserverSharedPtr_t pMediaObserver)
+        {
+            std::cout << "RtpClientSession::Attach()" << std::endl;
         }
     }
 }

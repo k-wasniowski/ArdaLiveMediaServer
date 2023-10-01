@@ -23,19 +23,10 @@ namespace MediaServer
         std::cout << "GenericRtpClientProxy::~GenericRtpClientProxy()" << std::endl;
     }
 
-    bool GenericRtpClientProxy::InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription)
+    MediaServer::Rtp::GenericRtpStreamAwaiter GenericRtpClientProxy::Initiate(std::string ip, uint16_t port, std::string sessionDescription)
     {
-        std::cout << "GenericRtpClientProxy::InitiateNewSession()" << std::endl;
+        std::cout << "GenericRtpClient::Initiate()" << std::endl;
 
-        auto pExecutionContext = m_pExecutionContext.lock();
-        if (!pExecutionContext)
-        {
-            std::cout << "GenericRtpClientProxy::InitiateNewSession() - pExecutionContext is null!" << std::endl;
-            return false;
-        }
-
-        auto task = std::bind(&MediaServer::Rtp::GenericRtpClient::InitiateNewSession, m_pGenericRtpClient, ip, port, sessionDescription);
-
-        return pExecutionContext->PostTask(task);
+        return MediaServer::Rtp::GenericRtpStreamAwaiter(m_pExecutionContext, m_pGenericRtpClient, ip, port, sessionDescription);
     }
 }

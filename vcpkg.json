@@ -25,6 +25,10 @@
     {
       "name": "boost",
       "version>=": "1.82.0"
+    },
+    {
+      "name": "nlohmann-json",
+      "version>=": "3.11.2"
     }
   ]
 }

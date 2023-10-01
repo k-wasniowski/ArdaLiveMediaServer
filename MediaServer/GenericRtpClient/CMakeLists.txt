@@ -31,4 +31,9 @@ target_link_libraries(GenericRtpClient
     Boost::thread
 )
 
+target_link_libraries(GenericRtpClient
+        PRIVATE
+    Gondor::Execution
+)
+
 add_library(MediaServer::GenericRtpClient ALIAS GenericRtpClient)

@@ -47,7 +47,7 @@ namespace MediaServer
             }
         }
 
-        MediaServer::Rtp::IGenericRtpClientSharedPtr_t MakeGenericRtpClient()
+        MediaServer::Rtp::IGenericRtpClientProxySharedPtr_t MakeGenericRtpClient()
         {
             return GenericRtpClientProxy::Create(m_pExecutionContext, m_pGenericRtpClient);
         }
@@ -91,7 +91,7 @@ namespace MediaServer
         }
     }
 
-    MediaServer::Rtp::IGenericRtpClientSharedPtr_t Server::MakeGenericRtpClient()
+    MediaServer::Rtp::IGenericRtpClientProxySharedPtr_t Server::MakeGenericRtpClient()
     {
         if (!m_pImpl)
         {
