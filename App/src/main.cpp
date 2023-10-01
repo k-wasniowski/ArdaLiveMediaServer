@@ -10,9 +10,7 @@ int main()
 
     auto pMediaServer = MediaServer::Server::Create();
 
-    auto pMediaManager = MediaServer::MediaManager::Create();
-
-    auto pHttpServer = HttpServer::Server::Create(pMediaManager, pMediaServer);
+    auto pHttpServer = HttpServer::Server::Create(pMediaServer);
     if (!pHttpServer)
     {
         return -1;

@@ -4,8 +4,6 @@
 #include <HttpServer/Resources/GenericRtpController.hpp>
 #include <HttpServer/Resources/WebRtcController.hpp>
 
-#include <MediaServer/MediaManager/MediaManager.hpp>
-
 #include <iostream>
 
 namespace HttpServer
@@ -19,18 +17,17 @@ namespace HttpServer
          *
          * @return std::unique_ptr<Impl>
          */
-        static std::unique_ptr<Impl> Create(MediaServer::MediaManagerSharedPtr_t pMediaManager, MediaServer::ServerSharedPtr_t pMediaServer)
+        static std::unique_ptr<Impl> Create(MediaServer::ServerSharedPtr_t pMediaServer)
         {
-            return std::make_unique<Impl>(std::move(pMediaManager), std::move(pMediaServer));
+            return std::make_unique<Impl>(std::move(pMediaServer));
         }
 
         /**
          * @brief Impl
          * @details This constructor will create the server instance.
          */
-        Impl(MediaServer::MediaManagerSharedPtr_t pMediaManager, MediaServer::ServerSharedPtr_t pMediaServer)
-            : m_pMediaManager{std::move(pMediaManager)}
-            , m_pMediaServer{std::move(pMediaServer)}
+        Impl(MediaServer::ServerSharedPtr_t pMediaServer)
+            : m_pMediaServer{std::move(pMediaServer)}
         {
             std::cout << "Creating Server Impl" << std::endl;
         }
@@ -48,29 +45,28 @@ namespace HttpServer
         {
             std::cout << "Running Server Impl" << std::endl;
             auto pHealthCheckController = HttpServer::HealthCheckController::Create();
-            auto pWebRtcController = HttpServer::Resources::WebRtcController::Create(m_pMediaManager);
+            // auto pWebRtcController = HttpServer::Resources::WebRtcController::Create(m_pMediaManager);
             auto pGenericRtpController = HttpServer::Resources::GenericRtpController::Create(m_pMediaServer);
 
             drogon::app()
                 .addListener("127.0.0.1", 80)
                 .registerController(pHealthCheckController)
-                .registerController(pWebRtcController)
+                //.registerController(pWebRtcController)
                 .registerController(pGenericRtpController)
                 .run();
         }
 
     private:
-        MediaServer::MediaManagerSharedPtr_t m_pMediaManager;
         MediaServer::ServerSharedPtr_t m_pMediaServer;
     };
 
-    ServerUniquePtr_t Server::Create(MediaServer::MediaManagerSharedPtr_t pMediaManager, MediaServer::ServerSharedPtr_t pMediaServer)
+    ServerUniquePtr_t Server::Create(MediaServer::ServerSharedPtr_t pMediaServer)
     {
-        return std::make_unique<Server>(std::move(pMediaManager), std::move(pMediaServer));
+        return std::make_unique<Server>(std::move(pMediaServer));
     }
 
-    Server::Server(MediaServer::MediaManagerSharedPtr_t pMediaManager, MediaServer::ServerSharedPtr_t pMediaServer)
-        : m_pImpl(Impl::Create(std::move(pMediaManager), std::move(pMediaServer)))
+    Server::Server(MediaServer::ServerSharedPtr_t pMediaServer)
+        : m_pImpl(Impl::Create(std::move(pMediaServer)))
     {
         std::cout << "Creating Server" << std::endl;
     }

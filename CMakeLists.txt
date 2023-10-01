@@ -40,4 +40,3 @@ add_subdirectory(HttpServer)
 add_subdirectory(App)
 
 add_subdirectory(UnitTests)
-add_subdirectory(DevApps)
