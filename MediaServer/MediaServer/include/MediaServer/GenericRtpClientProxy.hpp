@@ -23,8 +23,6 @@ namespace MediaServer
                               MediaServer::Rtp::GenericRtpClientSharedPtr_t pGenericRtpClient);
         ~GenericRtpClientProxy();
 
-        bool InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription);
-
         MediaServer::Rtp::GenericRtpStreamAwaiter Initiate(std::string ip, uint16_t port, std::string sessionDescription) override;
 
     private:

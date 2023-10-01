@@ -24,7 +24,7 @@ namespace MediaServer
 
             virtual ~GenericRtpClient();
 
-            bool InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription, std::function<void()> callback) override;
+            bool InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription, std::function<void(IMediaTrackSharedPtr_t pMediaTrack)> callback) override;
 
         private:
             boost::asio::io_context m_ioContext;

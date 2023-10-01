@@ -1,48 +1,15 @@
 #pragma once
 
+#include <Gondor/Execution/CallbackAwaiter.hpp>
 #include <Gondor/Execution/ExecutionContext.hpp>
 
-// #include <MediaServer/
+#include <MediaServer/MediaManager/IMediaTrack.hpp>
+
 #include <coroutine>
+#include <iostream>
 #include <memory>
 #include <optional>
 #include <string>
-
-template <typename T = void>
-struct CallbackAwaiter
-{
-    bool await_ready() noexcept
-    {
-        return false;
-    }
-
-    const T& await_resume() const noexcept(false)
-    {
-        if (exception_)
-            std::rethrow_exception(exception_);
-        return result_.value();
-    }
-
-private:
-    std::optional<T> result_;
-    std::exception_ptr exception_{nullptr};
-
-protected:
-    void setException(const std::exception_ptr& e)
-    {
-        exception_ = e;
-    }
-
-    void setValue(const T& v)
-    {
-        result_.emplace(v);
-    }
-
-    void setValue(T&& v)
-    {
-        result_.emplace(std::move(v));
-    }
-};
 
 namespace MediaServer
 {
@@ -53,13 +20,15 @@ namespace MediaServer
         public:
             virtual ~IGenericRtpClient() = default;
 
-            virtual bool
-            InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription, std::function<void()> callback) = 0;
+            virtual bool InitiateNewSession(std::string ip,
+                                            uint16_t port,
+                                            std::string sessionDescription,
+                                            std::function<void(IMediaTrackSharedPtr_t pMediaTrack)> callback) = 0;
         };
 
         using IGenericRtpClientSharedPtr_t = std::shared_ptr<IGenericRtpClient>;
 
-        class GenericRtpStreamAwaiter : public CallbackAwaiter<bool>
+        class GenericRtpStreamAwaiter : public Gondor::Execution::CallbackAwaiter<IMediaTrackSharedPtr_t>
         {
         public:
             GenericRtpStreamAwaiter(Gondor::Execution::ExecutionContextWeakPtr pExecutionContext,
@@ -72,14 +41,21 @@ namespace MediaServer
                 , m_ip{ip}
                 , m_port{port}
                 , m_sessionDescription{sessionDescription}
-            {}
+            {
+                std::cout << "GenericRtpStreamAwaiter::GenericRtpStreamAwaiter()" << std::endl;
+            }
+
+            ~GenericRtpStreamAwaiter() override
+            {
+                std::cout << "GenericRtpStreamAwaiter::~GenericRtpStreamAwaiter()" << std::endl;
+            }
 
             void await_suspend(std::coroutine_handle<> handle)
             {
                 auto pExecutionContext = m_pExecutionContext.lock();
                 if (!pExecutionContext)
                 {
-                    setValue(false);
+                    SetValue(nullptr);
                     handle.resume();
                 }
 
@@ -88,15 +64,15 @@ namespace MediaServer
                                       m_ip,
                                       m_port,
                                       m_sessionDescription,
-                                      [this, handle]() {
-                                          setValue(true);
+                                      [this, handle](IMediaTrackSharedPtr_t pMediaTrack) -> void {
+                                          SetValue(pMediaTrack);
                                           handle.resume();
                                       });
 
                 auto result = pExecutionContext->PostTask(task);
-                if(!result)
+                if (!result)
                 {
-                    setValue(false);
+                    SetValue(nullptr);
                     handle.resume();
                 }
             }

@@ -46,7 +46,7 @@ namespace MediaServer
             m_threadPool.join_all();
         }
 
-        bool GenericRtpClient::InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription, std::function<void()> callback)
+        bool GenericRtpClient::InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription, std::function<void(IMediaTrackSharedPtr_t pMediaTrack)> callback)
         {
             std::cout << "GenericRtpClient::InitiateNewClient()" << std::endl;
             std::cout << "IP: " << ip << std::endl;

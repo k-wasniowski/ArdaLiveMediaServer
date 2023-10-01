@@ -23,14 +23,9 @@ namespace HttpServer
 
             METHOD_LIST_BEGIN
             ADD_METHOD_TO(GenericRtpController::PostResource, "/api/v1/resources/generic-rtp/{resource}", drogon::Post);
-            ADD_METHOD_TO(GenericRtpController::PostResourceAsync, "/api/v2/resources/generic-rtp/{res}", drogon::Post);
             METHOD_LIST_END
 
-            void PostResource(const drogon::HttpRequestPtr& req,
-                              std::function<void(const drogon::HttpResponsePtr&)>&& callback,
-                              std::string&& resource);
-
-            drogon::Task<drogon::HttpResponsePtr> PostResourceAsync(const drogon::HttpRequestPtr req);
+            drogon::Task<drogon::HttpResponsePtr> PostResource(const drogon::HttpRequestPtr req);
 
         private:
             void SendHttpSuccessResponse_(std::function<void(const drogon::HttpResponsePtr&)>&& callback);
