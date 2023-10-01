@@ -1,5 +1,4 @@
 #include <HttpServer/Server.hpp>
-#include <MediaServer/MediaManager/MediaManager.hpp>
 #include <MediaServer/Server.hpp>
 
 #include <iostream>
@@ -16,6 +15,7 @@ int main()
         return -1;
     }
 
+    pMediaServer->Run();
     pHttpServer->Run();
 
     return 0;

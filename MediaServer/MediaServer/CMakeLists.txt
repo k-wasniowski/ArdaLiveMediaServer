@@ -1,6 +1,7 @@
 add_library(MediaServer
         STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Server.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MediaManagerProxy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GenericRtpClientProxy.cpp
 )
 

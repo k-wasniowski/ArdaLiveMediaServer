@@ -1,4 +1,7 @@
 #include <MediaServer/GenericRtpClientProxy.hpp>
+#include <MediaServer/MediaManagerProxy.hpp>
+
+#include <MediaServer/MediaManager/MediaManager.hpp>
 #include <MediaServer/Server.hpp>
 
 #include <Gondor/Execution/ExecutionContext.hpp>
@@ -19,6 +22,7 @@ namespace MediaServer
 
         Impl()
             : m_pExecutionContext{Gondor::Execution::ExecutionContext::Create()}
+            , m_pMediaManager{MediaServer::MediaManager::Create()}
             , m_pGenericRtpClient{MediaServer::Rtp::GenericRtpClient::Create()}
         {
             std::cout << "Creating Server!" << std::endl;
@@ -52,8 +56,14 @@ namespace MediaServer
             return GenericRtpClientProxy::Create(m_pExecutionContext, m_pGenericRtpClient);
         }
 
+        MediaServer::MediaManagerProxySharedPtr_t MakeMediaManager()
+        {
+            return MediaManagerProxy::Create(m_pExecutionContext, m_pMediaManager);
+        }
+
     private:
         Gondor::Execution::ExecutionContextSharedPtr m_pExecutionContext;
+        MediaServer::MediaManagerSharedPtr_t m_pMediaManager;
         MediaServer::Rtp::GenericRtpClientSharedPtr_t m_pGenericRtpClient;
     };
 
@@ -89,6 +99,16 @@ namespace MediaServer
         {
             m_pImpl->Terminate();
         }
+    }
+
+    MediaServer::MediaManagerProxySharedPtr_t Server::MakeMediaManager()
+    {
+        if (!m_pImpl)
+        {
+            return nullptr;
+        }
+
+        return m_pImpl->MakeMediaManager();
     }
 
     MediaServer::Rtp::IGenericRtpClientProxySharedPtr_t Server::MakeGenericRtpClient()

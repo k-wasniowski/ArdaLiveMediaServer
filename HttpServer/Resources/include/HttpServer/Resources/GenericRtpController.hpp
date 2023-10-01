@@ -23,12 +23,12 @@ namespace HttpServer
 
             METHOD_LIST_BEGIN
             ADD_METHOD_TO(GenericRtpController::PostResource, "/api/v1/resources/generic-rtp/{resource}", drogon::Post);
+            ADD_METHOD_TO(GenericRtpController::GetResources, "/api/v1/resources/generic-rtp/resources", drogon::Get);
             METHOD_LIST_END
 
-            drogon::Task<drogon::HttpResponsePtr> PostResource(const drogon::HttpRequestPtr req);
+            drogon::Task<drogon::HttpResponsePtr> PostResource(const drogon::HttpRequestPtr req, std::string resourceName);
 
-        private:
-            void SendHttpSuccessResponse_(std::function<void(const drogon::HttpResponsePtr&)>&& callback);
+            drogon::Task<drogon::HttpResponsePtr> GetResources(const drogon::HttpRequestPtr req);
 
         private:
             MediaServer::ServerSharedPtr_t m_pMediaServer;

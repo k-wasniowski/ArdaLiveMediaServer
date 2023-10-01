@@ -1,6 +1,7 @@
 #pragma once
 
 #include <MediaServer/GenericRtpClient/IGenericRtpClient.hpp>
+#include <MediaServer/MediaManagerProxy.hpp>
 
 #include <memory>
 
@@ -51,6 +52,8 @@ namespace MediaServer
          * @details This method will stop the server.
          */
         void Terminate();
+
+        MediaServer::MediaManagerProxySharedPtr_t MakeMediaManager();
 
         MediaServer::Rtp::IGenericRtpClientProxySharedPtr_t MakeGenericRtpClient();
 
