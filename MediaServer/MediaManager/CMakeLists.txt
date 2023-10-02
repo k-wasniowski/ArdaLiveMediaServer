@@ -9,4 +9,9 @@ target_include_directories(MediaManager
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
+target_link_libraries(MediaManager
+        PUBLIC
+    Gondor::Concurrency
+)
+
 add_library(MediaServer::MediaManager ALIAS MediaManager)

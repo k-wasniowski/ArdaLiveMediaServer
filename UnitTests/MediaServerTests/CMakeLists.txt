@@ -1,1 +1,2 @@
+add_subdirectory(MediaManagerTests)
 add_subdirectory(MediaServerTests)

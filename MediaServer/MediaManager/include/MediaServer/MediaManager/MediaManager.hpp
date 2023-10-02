@@ -5,6 +5,7 @@
 #include <MediaServer/MediaManager/MediaResource.hpp>
 
 #include <list>
+#include <map>
 #include <memory>
 
 namespace MediaServer
@@ -20,8 +21,6 @@ namespace MediaServer
         MediaManager();
         ~MediaManager();
 
-        bool AddMediaResource(MediaResourceSharedPtr_t pMediaResource) override;
-
         void AddMediaResourceWithCallback(MediaResourceSharedPtr_t pMediaResource, std::function<void(bool)> callback) override;
 
         MediaResourceSharedPtr_t GetMediaResource(std::string resource) override;
@@ -33,6 +32,6 @@ namespace MediaServer
         void RemoveMediaResource(MediaResourceSharedPtr_t pMediaResource);
 
     private:
-        std::list<MediaResourceSharedPtr_t> m_mediaResources;
+        std::map<std::string, MediaResourceSharedPtr_t> m_mediaResources;
     };
 }

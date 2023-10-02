@@ -6,7 +6,7 @@ namespace MediaServer
 {
     MediaResourceSharedPtr_t MediaResource::Create(std::string resourceName)
     {
-        return std::make_shared<MediaResource>(std::move(resourceName));
+        return std::make_shared<Gondor::Concurrency::Mutex<MediaResource>>(std::move(resourceName));
     }
 
     MediaResource::MediaResource(std::string resourceName)

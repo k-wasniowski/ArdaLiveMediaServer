@@ -30,7 +30,9 @@ namespace MediaServer
             return;
         }
 
-        auto pExistingMediaResource = GetMediaResource(pMediaResource->ResourceName());
+        auto pLockedMediaResource  = pMediaResource->Lock();
+
+        auto pExistingMediaResource = GetMediaResource(pLockedMediaResource->ResourceName());
         if (pExistingMediaResource)
         {
             std::cout << "MediaManager::AddMediaResourceWithCallback - pMediaResource already exists" << std::endl;
@@ -40,21 +42,9 @@ namespace MediaServer
 
         std::cout << "MediaManager::AddMediaResourceWithCallback - pMediaResource added" << std::endl;
 
-        m_mediaResources.push_back(pMediaResource);
+        m_mediaResources.emplace(pLockedMediaResource->ResourceName(), pMediaResource);
 
         callback(true);
-    }
-
-    bool MediaManager::AddMediaResource(MediaResourceSharedPtr_t pMediaResource)
-    {
-        if (GetMediaResource(pMediaResource->ResourceName()))
-        {
-            return false;
-        }
-
-        m_mediaResources.push_back(pMediaResource);
-
-        return true;
     }
 
     MediaResourceSharedPtr_t MediaManager::GetMediaResource(std::string resourceName)
@@ -62,21 +52,21 @@ namespace MediaServer
         auto it = std::find_if(
             std::begin(m_mediaResources),
             std::end(m_mediaResources),
-            [resourceName = std::move(resourceName)](const auto& resource) -> bool { return resource->ResourceName() == resourceName; });
+            [resourceName = std::move(resourceName)](const auto& resource) -> bool { return resource.first == resourceName; });
 
         if (it == std::end(m_mediaResources))
         {
             return nullptr;
         }
 
-        return *it;
+        return it->second;
     }
 
     void MediaManager::GetMediaResourcesWithCallback(std::function<void(std::list<MediaResourceSharedPtr_t>)> callback)
     {
         std::cout << "MediaManager::GetMediaResourcesWithCallback, size: " << m_mediaResources.size() << std::endl;
 
-        callback(m_mediaResources);
+        //callback(m_mediaResources);
     }
 
     void MediaManager::GetMediaResourceWithCallback(std::string resourceName, std::function<void(MediaResourceSharedPtr_t)> callback)
@@ -88,6 +78,6 @@ namespace MediaServer
 
     void MediaManager::RemoveMediaResource(MediaResourceSharedPtr_t pMediaResource)
     {
-        m_mediaResources.remove(pMediaResource);
+        //m_mediaResources.remove(pMediaResource);
     }
 }

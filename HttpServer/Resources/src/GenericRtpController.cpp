@@ -66,17 +66,33 @@ namespace HttpServer
             }
 
             auto pMediaResource = co_await pMediaManager->GetMediaResource(resourceName);
-            if (!pMediaResource)
+            if(pMediaResource)
             {
-                auto pNewMediaResource = MediaServer::MediaResource::Create(resourceName);
-                pNewMediaResource->AddTrack(pMediaTrack);
+                auto pMediaResourceLock = pMediaResource->Lock();
 
-                co_await pMediaManager->AddMediaResource(pNewMediaResource);
+                pMediaResourceLock->AddTrack(pMediaTrack);
             }
             else
             {
-                pMediaResource->AddTrack(pMediaTrack);
+                auto pNewMediaResource = MediaServer::MediaResource::Create(resourceName);
+                {
+                    auto pLockedNewMediaResource = pNewMediaResource->Lock();
+                    pLockedNewMediaResource->AddTrack(pMediaTrack);
+                }
+
+                co_await pMediaManager->AddMediaResource(pNewMediaResource);
             }
+//            if (!pMediaResource)
+//            {
+//
+//                pNewMediaResource->AddTrack(pMediaTrack);
+//
+//                co_await pMediaManager->AddMediaResource(pNewMediaResource);
+//            }
+//            else
+//            {
+//                pMediaResource->AddTrack(pMediaTrack);
+//            }
 
             std::cout << "Success" << std::endl;
             pHttpResponse->setStatusCode(drogon::HttpStatusCode::k200OK);

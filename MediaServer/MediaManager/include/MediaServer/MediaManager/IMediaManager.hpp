@@ -13,8 +13,6 @@ namespace MediaServer
     public:
         virtual ~IMediaManager() = default;
 
-        virtual bool AddMediaResource(MediaResourceSharedPtr_t pMediaResource) = 0;
-
         virtual void AddMediaResourceWithCallback(MediaResourceSharedPtr_t pMediaResource, std::function<void(bool)> callback) = 0;
 
         virtual MediaResourceSharedPtr_t GetMediaResource(std::string resource) = 0;

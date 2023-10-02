@@ -1,6 +1,7 @@
 add_library(Resources
         STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GenericRtpController.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ResourcesController.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WebRtcController.cpp
 )
 

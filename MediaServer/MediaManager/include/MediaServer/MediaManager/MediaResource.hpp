@@ -2,14 +2,17 @@
 
 #include <MediaServer/MediaManager/IMediaTrack.hpp>
 
-#include <string>
+#include <Gondor/Concurrency/Mutex.hpp>
+
 #include <memory>
+#include <mutex>
+#include <string>
 #include <vector>
 
 namespace MediaServer
 {
     class MediaResource;
-    using MediaResourceSharedPtr_t = std::shared_ptr<MediaResource>;
+    using MediaResourceSharedPtr_t = std::shared_ptr<Gondor::Concurrency::Mutex<MediaResource>>;
 
     class MediaResource
     {
@@ -19,11 +22,22 @@ namespace MediaServer
         explicit MediaResource(std::string resourceName);
         ~MediaResource();
 
-        [[nodiscard]] inline std::string ResourceName() const { return m_resourceName; }
+        [[nodiscard]] inline std::string ResourceName() const
+        {
+            return m_resourceName;
+        }
 
         void AddTrack(std::shared_ptr<IMediaTrack> pMediaTrack);
 
-        [[nodiscard]] std::shared_ptr<IMediaTrack> GetTrack(std::string trackName) { return m_mediaTracks[0]; }
+        [[nodiscard]] std::shared_ptr<IMediaTrack> GetTrack(std::string trackName)
+        {
+            return m_mediaTracks[0];
+        }
+
+        [[nodiscard]] uint32_t TracksCount() const
+        {
+            return m_mediaTracks.size();
+        }
 
     private:
         std::string m_resourceName;
