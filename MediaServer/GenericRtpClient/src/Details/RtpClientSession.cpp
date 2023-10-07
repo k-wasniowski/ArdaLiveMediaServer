@@ -13,19 +13,16 @@ namespace MediaServer
     namespace Rtp
     {
         RtpClientSessionSharedPtr_t RtpClientSession::Create(boost::asio::io_context& ioContext,
-                                                             boost::asio::ip::udp::endpoint endpoint,
-                                                             Media::Sdp::SessionDescriptionSharedPtr_t pSessionDescription)
+                                                             boost::asio::ip::udp::endpoint endpoint)
         {
-            return std::make_shared<RtpClientSession>(ioContext, endpoint, pSessionDescription);
+            return std::make_shared<RtpClientSession>(ioContext, endpoint);
         }
 
         RtpClientSession::RtpClientSession(boost::asio::io_context& ioContext,
-                                           boost::asio::ip::udp::endpoint endpoint,
-                                           Media::Sdp::SessionDescriptionSharedPtr_t pSessionDescription)
+                                           boost::asio::ip::udp::endpoint endpoint)
             : m_ioContext{ioContext}
             , m_socket{m_ioContext, endpoint}
             , m_readStreamBuffer{}
-            , m_pSessionDescription{pSessionDescription}
         {
             std::cout << "RtpClientSession::RtpClientSession()" << std::endl;
         }
@@ -83,6 +80,8 @@ namespace MediaServer
             auto pMediaBuffer = Media::Core::MediaBuffer::Create(std::move(data));
             auto pFrame = Media::Core::VideoFrame::Create(pMediaBuffer);
 
+
+
             // std::cout << "Frame received!" << std::endl;
 
             StartReading_();
@@ -91,6 +90,11 @@ namespace MediaServer
         void RtpClientSession::Attach(MediaObserverSharedPtr_t pMediaObserver)
         {
             std::cout << "RtpClientSession::Attach()" << std::endl;
+        }
+
+        std::string RtpClientSession::Name() const
+        {
+            return "";
         }
     }
 }

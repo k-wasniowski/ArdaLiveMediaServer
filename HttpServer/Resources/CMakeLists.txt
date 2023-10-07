@@ -12,6 +12,7 @@ target_link_libraries(Resources
     MediaServer::MediaManager
     MediaServer::MediaServer
     Media::Core
+    Media::Sdp
     nlohmann_json::nlohmann_json
 )
 

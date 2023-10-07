@@ -18,6 +18,12 @@ target_link_libraries(MediaServer
 
 target_link_libraries(MediaServer
         PUBLIC
+    Media::Sdp
+    Media::Core
+)
+
+target_link_libraries(MediaServer
+        PUBLIC
     MediaServer::MediaManager
     MediaServer::GenericRtpClient
 )

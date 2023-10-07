@@ -1,8 +1,9 @@
 #pragma once
 
 #include <MediaServer/GenericRtpClient/IGenericRtpClient.hpp>
-
 #include <MediaServer/GenericRtpClient/GenericRtpClient.hpp>
+
+#include <Media/Sdp/SessionDescription.hpp>
 
 #include <Gondor/Execution/ExecutionContext.hpp>
 
@@ -23,7 +24,7 @@ namespace MediaServer
                               MediaServer::Rtp::GenericRtpClientSharedPtr_t pGenericRtpClient);
         ~GenericRtpClientProxy();
 
-        MediaServer::Rtp::GenericRtpStreamAwaiter Initiate(std::string ip, uint16_t port, std::string sessionDescription) override;
+        MediaServer::Rtp::GenericRtpStreamAwaiter Initiate(std::string ip, uint16_t port) override;
 
     private:
         Gondor::Execution::ExecutionContextWeakPtr m_pExecutionContext;

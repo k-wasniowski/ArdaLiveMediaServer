@@ -22,12 +22,10 @@ namespace MediaServer
         {
         public:
             static RtpClientSessionSharedPtr_t Create(boost::asio::io_context& ioContext,
-                                                      boost::asio::ip::udp::endpoint endpoint,
-                                                      Media::Sdp::SessionDescriptionSharedPtr_t pSessionDescription);
+                                                      boost::asio::ip::udp::endpoint endpoint);
 
             explicit RtpClientSession(boost::asio::io_context& ioContext,
-                                      boost::asio::ip::udp::endpoint endpoint,
-                                      Media::Sdp::SessionDescriptionSharedPtr_t pSessionDescription);
+                                      boost::asio::ip::udp::endpoint endpoint);
 
             virtual ~RtpClientSession();
 
@@ -35,6 +33,8 @@ namespace MediaServer
 
         public:
             void Attach(MediaObserverSharedPtr_t pMediaObserver) override;
+
+            std::string Name() const override;
 
         protected:
             void StartReading_();
@@ -49,7 +49,6 @@ namespace MediaServer
             boost::asio::io_context& m_ioContext;
             boost::asio::ip::udp::socket m_socket;
             std::array<std::byte, 8192> m_readStreamBuffer;
-            Media::Sdp::SessionDescriptionSharedPtr_t m_pSessionDescription;
         };
     }
 }

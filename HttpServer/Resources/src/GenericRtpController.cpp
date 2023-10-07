@@ -1,5 +1,7 @@
 #include <HttpServer/Resources/GenericRtpController.hpp>
 
+#include <Media/Sdp/SessionDescription.hpp>
+
 #include <nlohmann/json.hpp>
 
 #include <iostream>
@@ -52,11 +54,10 @@ namespace HttpServer
 
             nlohmann::json request = nlohmann::json::parse(requestBody);
 
-            std::string address = request["address"];
+            std::string address = request["ip"];
             uint16_t port = request["port"];
-            std::string sdp = request["sdp"];
 
-            auto pMediaTrack = co_await pGenericRtpClient->Initiate(address, port, sdp);
+            auto pMediaTrack = co_await pGenericRtpClient->Initiate(address, port);
             if (!pMediaTrack)
             {
                 std::cout << "Failure" << std::endl;
@@ -66,7 +67,7 @@ namespace HttpServer
             }
 
             auto pMediaResource = co_await pMediaManager->GetMediaResource(resourceName);
-            if(pMediaResource)
+            if (pMediaResource)
             {
                 auto pMediaResourceLock = pMediaResource->Lock();
 
@@ -82,17 +83,6 @@ namespace HttpServer
 
                 co_await pMediaManager->AddMediaResource(pNewMediaResource);
             }
-//            if (!pMediaResource)
-//            {
-//
-//                pNewMediaResource->AddTrack(pMediaTrack);
-//
-//                co_await pMediaManager->AddMediaResource(pNewMediaResource);
-//            }
-//            else
-//            {
-//                pMediaResource->AddTrack(pMediaTrack);
-//            }
 
             std::cout << "Success" << std::endl;
             pHttpResponse->setStatusCode(drogon::HttpStatusCode::k200OK);
@@ -114,7 +104,7 @@ namespace HttpServer
             }
 
             auto mediaResources = co_await pMediaManager->GetMediaResources();
-            if(mediaResources.empty())
+            if (mediaResources.empty())
             {
                 pHttpResponse->setStatusCode(drogon::HttpStatusCode::k204NoContent);
 

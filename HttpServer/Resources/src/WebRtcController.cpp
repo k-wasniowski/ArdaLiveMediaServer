@@ -2,6 +2,8 @@
 
 #include <MediaServer/MediaManager/MediaResource.hpp>
 
+#include <rtc/rtc.hpp>
+
 #include <memory>
 
 namespace HttpServer
@@ -25,6 +27,13 @@ namespace HttpServer
         {
             auto pHttpResponse = drogon::HttpResponse::newHttpResponse();
             pHttpResponse->setStatusCode(drogon::HttpStatusCode::k501NotImplemented);
+
+            rtc::Configuration config;
+            config.iceServers.emplace_back("stun:stun.l.google.com:19302");
+
+            //auto pPeerConnection = std::make_shared<rtc::PeerConnection>(config);
+
+
 
             callback(pHttpResponse);
         }

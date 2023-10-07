@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace MediaServer
 {
@@ -19,6 +20,8 @@ namespace MediaServer
     {
     public:
         virtual ~IMediaTrack() = default;
+
+        virtual std::string Name() const = 0;
 
         virtual void Attach(MediaObserverSharedPtr_t pMediaObserver) = 0;
     };

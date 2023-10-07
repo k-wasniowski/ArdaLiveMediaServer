@@ -23,10 +23,10 @@ namespace MediaServer
         std::cout << "GenericRtpClientProxy::~GenericRtpClientProxy()" << std::endl;
     }
 
-    MediaServer::Rtp::GenericRtpStreamAwaiter GenericRtpClientProxy::Initiate(std::string ip, uint16_t port, std::string sessionDescription)
+    MediaServer::Rtp::GenericRtpStreamAwaiter GenericRtpClientProxy::Initiate(std::string ip, uint16_t port)
     {
         std::cout << "GenericRtpClient::Initiate()" << std::endl;
 
-        return MediaServer::Rtp::GenericRtpStreamAwaiter(m_pExecutionContext, m_pGenericRtpClient, ip, port, sessionDescription);
+        return MediaServer::Rtp::GenericRtpStreamAwaiter(m_pExecutionContext, m_pGenericRtpClient, ip, port);
     }
 }

@@ -3,6 +3,8 @@
 #include <Gondor/Execution/CallbackAwaiter.hpp>
 #include <Gondor/Execution/ExecutionContext.hpp>
 
+#include <Media/Sdp/SessionDescription.hpp>
+
 #include <MediaServer/MediaManager/IMediaTrack.hpp>
 
 #include <coroutine>
@@ -22,7 +24,6 @@ namespace MediaServer
 
             virtual bool InitiateNewSession(std::string ip,
                                             uint16_t port,
-                                            std::string sessionDescription,
                                             std::function<void(IMediaTrackSharedPtr_t pMediaTrack)> callback) = 0;
         };
 
@@ -34,13 +35,11 @@ namespace MediaServer
             GenericRtpStreamAwaiter(Gondor::Execution::ExecutionContextWeakPtr pExecutionContext,
                                     IGenericRtpClientSharedPtr_t pGenericRtpClient,
                                     std::string ip,
-                                    uint16_t port,
-                                    std::string sessionDescription)
+                                    uint16_t port)
                 : m_pExecutionContext{pExecutionContext}
                 , m_pGenericRtpClient{pGenericRtpClient}
                 , m_ip{ip}
                 , m_port{port}
-                , m_sessionDescription{sessionDescription}
             {
                 std::cout << "GenericRtpStreamAwaiter::GenericRtpStreamAwaiter()" << std::endl;
             }
@@ -63,7 +62,6 @@ namespace MediaServer
                                       m_pGenericRtpClient,
                                       m_ip,
                                       m_port,
-                                      m_sessionDescription,
                                       [this, handle](IMediaTrackSharedPtr_t pMediaTrack) -> void {
                                           SetValue(pMediaTrack);
                                           handle.resume();
@@ -82,7 +80,6 @@ namespace MediaServer
             IGenericRtpClientSharedPtr_t m_pGenericRtpClient;
             std::string m_ip;
             uint16_t m_port;
-            std::string m_sessionDescription;
         };
 
         class IGenericRtpClientProxy
@@ -90,7 +87,7 @@ namespace MediaServer
         public:
             virtual ~IGenericRtpClientProxy() = default;
 
-            virtual GenericRtpStreamAwaiter Initiate(std::string ip, uint16_t port, std::string sessionDescription) = 0;
+            virtual GenericRtpStreamAwaiter Initiate(std::string ip, uint16_t port) = 0;
         };
 
         using IGenericRtpClientProxySharedPtr_t = std::shared_ptr<IGenericRtpClientProxy>;

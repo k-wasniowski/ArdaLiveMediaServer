@@ -46,18 +46,12 @@ namespace MediaServer
             m_threadPool.join_all();
         }
 
-        bool GenericRtpClient::InitiateNewSession(std::string ip, uint16_t port, std::string sessionDescription, std::function<void(IMediaTrackSharedPtr_t pMediaTrack)> callback)
+        bool GenericRtpClient::InitiateNewSession(std::string ip, uint16_t port, std::function<void(IMediaTrackSharedPtr_t pMediaTrack)> callback)
         {
-            std::cout << "GenericRtpClient::InitiateNewClient()" << std::endl;
-            std::cout << "IP: " << ip << std::endl;
-            std::cout << "Port: " << port << std::endl;
-            std::cout << "Session Description: " << sessionDescription << std::endl;
-
             try
             {
                 auto endpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::make_address(ip), port);
-                auto pSessionDescription = Media::Sdp::SessionDescription::Parse(sessionDescription);
-                auto pRtpClientSession = RtpClientSession::Create(m_ioContext, endpoint, pSessionDescription);
+                auto pRtpClientSession = RtpClientSession::Create(m_ioContext, endpoint);
 
                 pRtpClientSession->Initiate(callback);
 
